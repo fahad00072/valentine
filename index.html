@@ -81,10 +81,8 @@
 
 <body>
 
-<!-- 🎵 YOUR SONG -->
-<audio id="music" loop>
-  <source src="for-a-reason.mp3" type="audio/mpeg">
-</audio>
+<audio id="music" src="for-a-reason.mp3" preload="auto"></audio>
+
 
 <canvas id="boom"></canvas>
 
@@ -99,7 +97,11 @@
   <h1>YAYYYYY!!! 🥰💘</h1>
   <p>You just made my Valentine’s Day ❤️</p>
 
-  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExejJhMmd5bG9hMW1raHc0ZW82bmtpYXdqanFvOWQ2aXdqaDZibGlsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MOWPkhRAUbR7i/giphy.gif">
+  <img 
+  src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExejJhMmd5bG9hMW1raHc0ZW82bmtpYXdqanFvOWQ2aXdqaDZibGlsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MOWPkhRAUbR7i/giphy.gif"
+  style="width:480px; max-width:95%; border-radius:24px;"
+>
+
 </div>
 
 <script>
@@ -119,12 +121,16 @@
 
   // ❤️ YES click
   yes.addEventListener("click", () => {
-    question.style.display = "none";
-    yay.style.display = "block";
-    music.volume = 0.6;
-    music.play();
-    explode();
-  });
+  question.style.display = "none";
+  yay.style.display = "block";
+
+  music.currentTime = 0;
+  music.volume = 0.7;
+  music.play().catch(err => console.log("Audio blocked:", err));
+
+  explode();
+});
+
 
   // 💥 CENTER EXPLOSION
   function explode() {
