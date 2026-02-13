@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💖</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+  }
+
+  .box {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-width: 90%;
+  }
+
+  h1 {
+    color: #ff4d6d;
+  }
+
+  button {
+    padding: 14px 28px;
+    font-size: 18px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+  }
+
+  #yes {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  #no {
+    background: #adb5bd;
+    color: white;
+    position: absolute;
+  }
+
+  #yay {
+    display: none;
+  }
+
+  img {
+    width: 240px;
+    margin-top: 15px;
+    border-radius: 15px;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  .share {
+    background: #25D366;
+    color: white;
+  }
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+</audio>
+
+<canvas id="confetti"></canvas>
+<canvas id="explosion"></canvas>
+
+<div class="box" id="question">
+  <h1>Will you be my Valentine? 💖</h1>
+  <button id="yes">YES ❤️</button>
+  <button id="no">NO 💔</button>
+</div>
+
+<div class="box" id="yay">
+  <h1>BOOM!!! 💥😍</h1>
+  <p>You said YES ❤️</p>
+
+  <!-- 🔁 CHANGE THIS GIF -->
+  <img id="gif" src="PASTE_YOUR_GIF_LINK_HERE">
+
+  <br>
+  <button class="share" onclick="share()">Share on WhatsApp 💬</button>
+</div>
+
+<script>
+  const no = document.getElementById("no");
+  const yes = document.getElementById("yes");
+  const question = document.getElementById("question");
+  const yay = document.getElementById("yay");
+  const music = document.getElementById("music");
+
+  no.addEventListener("mouseover", moveNo);
+  no.addEventListener("click", moveNo);
+
+  function moveNo() {
+    no.style.left = Math.random() * (window.innerWidth - 120) + "px";
+    no.style.top = Math.random() * (window.innerHeight - 60) + "px";
+  }
+
+  yes.addEventListener("click", () => {
+    question.style.display = "none";
+    yay.style.display = "block";
+    music.play();
+    startConfetti();
+    explode();
+  });
+
+  function share() {
+    const msg = encodeURIComponent("I just said YES 💖💥");
+    window.open(`https://wa.me/?text=${msg}%20${window.location.href}`);
+  }
+
+  // 🎉 Confetti
+  const confetti = document.getElementById("confetti");
+  const ctx = confetti.getContext("2d");
+  confetti.width = innerWidth;
+  confetti.height = innerHeight;
+
+  const pieces = Array.from({ length: 150 }, () => ({
+    x: Math.random() * confetti.width,
+    y: Math.random() * confetti.height,
+    r: Math.random() * 6 + 4,
+    d: Math.random() * 40
+  }));
+
+  function startConfetti() {
+    setInterval(() => {
+      ctx.clearRect(0, 0, confetti.width, confetti.height);
+      ctx.fillStyle = "rgba(255,77,109,0.8)";
+      ctx.beginPath();
+      pieces.forEach(p => {
+        ctx.moveTo(p.x, p.y);
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        p.y += Math.cos(p.d) + 2;
+        if (p.y > confetti.height) {
+          p.y = 0;
+          p.x = Math.random() * confetti.width;
+        }
+      });
+      ctx.fill();
+    }, 20);
+  }
+
+  // 💥 Explosion
+  const boom = document.getElementById("explosion");
+  const btx = boom.getContext("2d");
+  boom.width = innerWidth;
+  boom.height = innerHeight;
+
+  function explode() {
+    for (let i = 0; i < 60; i++) {
+      setTimeout(() => {
+        btx.fillStyle = `hsl(${Math.random() * 360},100%,60%)`;
+        btx.beginPath();
+        btx.arc(
+          Math.random() * boom.width,
+          Math.random() * boom.height,
+          Math.random() * 10 + 5,
+          0,
+          Math.PI * 2
+        );
+        btx.fill();
+      }, i * 30);
+    }
+  }
+</script>
+
+</body>
+</html>
