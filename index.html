@@ -3,44 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine 💖</title>
+<title>Be My Valentine 💘</title>
 
 <style>
   body {
     margin: 0;
     height: 100vh;
-    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    background: linear-gradient(135deg, #ff5f8f, #ff9ab3);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     overflow: hidden;
   }
 
   .box {
     background: white;
-    padding: 30px;
-    border-radius: 20px;
+    padding: 36px;
+    border-radius: 26px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    max-width: 90%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    max-width: 92%;
   }
 
   h1 {
-    color: #ff4d6d;
+    color: #ff2f6e;
+    font-size: 38px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 22px;
+    color: #444;
+    margin-bottom: 25px;
   }
 
   button {
-    padding: 14px 28px;
-    font-size: 18px;
-    border-radius: 12px;
+    padding: 16px 34px;
+    font-size: 20px;
+    border-radius: 16px;
     border: none;
     cursor: pointer;
-    margin: 10px;
+    margin: 12px;
   }
 
   #yes {
-    background: #ff4d6d;
+    background: #ff2f6e;
     color: white;
   }
 
@@ -54,10 +62,12 @@
     display: none;
   }
 
+  /* 🎬 BIG GIF */
   img {
-    width: 240px;
-    margin-top: 15px;
-    border-radius: 15px;
+    width: 420px;
+    max-width: 95%;
+    margin-top: 25px;
+    border-radius: 24px;
   }
 
   canvas {
@@ -66,38 +76,30 @@
     left: 0;
     pointer-events: none;
   }
-
-  .share {
-    background: #25D366;
-    color: white;
-  }
 </style>
 </head>
 
 <body>
 
+<!-- 🎵 YOUR SONG -->
 <audio id="music" loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+  <source src="for-a-reason.mp3" type="audio/mpeg">
 </audio>
 
-<canvas id="confetti"></canvas>
-<canvas id="explosion"></canvas>
+<canvas id="boom"></canvas>
 
 <div class="box" id="question">
   <h1>Will you be my Valentine? 💖</h1>
+  <p>You can try saying no… but good luck 😏</p>
   <button id="yes">YES ❤️</button>
   <button id="no">NO 💔</button>
 </div>
 
 <div class="box" id="yay">
-  <h1>BOOM!!! 💥😍</h1>
-  <p>You said YES ❤️</p>
+  <h1>YAYYYYY!!! 🥰💘</h1>
+  <p>You just made my Valentine’s Day ❤️</p>
 
-  <!-- 🔁 CHANGE THIS GIF -->
-  <img id="gif" src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExejJhMmd5bG9hMW1raHc0ZW82bmtpYXdqanFvOWQ2aXdqaDZibGlsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MOWPkhRAUbR7i/giphy.gif">
-
-  <br>
-  <button class="share" onclick="share()">Share on WhatsApp 💬</button>
+  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExejJhMmd5bG9hMW1raHc0ZW82bmtpYXdqanFvOWQ2aXdqaDZibGlsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MOWPkhRAUbR7i/giphy.gif">
 </div>
 
 <script>
@@ -107,79 +109,64 @@
   const yay = document.getElementById("yay");
   const music = document.getElementById("music");
 
+  // 😈 NO button escape
+  function moveNo() {
+    no.style.left = Math.random() * (window.innerWidth - 140) + "px";
+    no.style.top = Math.random() * (window.innerHeight - 70) + "px";
+  }
   no.addEventListener("mouseover", moveNo);
   no.addEventListener("click", moveNo);
 
-  function moveNo() {
-    no.style.left = Math.random() * (window.innerWidth - 120) + "px";
-    no.style.top = Math.random() * (window.innerHeight - 60) + "px";
-  }
-
+  // ❤️ YES click
   yes.addEventListener("click", () => {
     question.style.display = "none";
     yay.style.display = "block";
+    music.volume = 0.6;
     music.play();
-    startConfetti();
     explode();
   });
 
-  function share() {
-    const msg = encodeURIComponent("I just said YES 💖💥");
-    window.open(`https://wa.me/?text=${msg}%20${window.location.href}`);
-  }
-
-  // 🎉 Confetti
-  const confetti = document.getElementById("confetti");
-  const ctx = confetti.getContext("2d");
-  confetti.width = innerWidth;
-  confetti.height = innerHeight;
-
-  const pieces = Array.from({ length: 150 }, () => ({
-    x: Math.random() * confetti.width,
-    y: Math.random() * confetti.height,
-    r: Math.random() * 6 + 4,
-    d: Math.random() * 40
-  }));
-
-  function startConfetti() {
-    setInterval(() => {
-      ctx.clearRect(0, 0, confetti.width, confetti.height);
-      ctx.fillStyle = "rgba(255,77,109,0.8)";
-      ctx.beginPath();
-      pieces.forEach(p => {
-        ctx.moveTo(p.x, p.y);
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        p.y += Math.cos(p.d) + 2;
-        if (p.y > confetti.height) {
-          p.y = 0;
-          p.x = Math.random() * confetti.width;
-        }
-      });
-      ctx.fill();
-    }, 20);
-  }
-
-  // 💥 Explosion
-  const boom = document.getElementById("explosion");
-  const btx = boom.getContext("2d");
-  boom.width = innerWidth;
-  boom.height = innerHeight;
-
+  // 💥 CENTER EXPLOSION
   function explode() {
-    for (let i = 0; i < 60; i++) {
-      setTimeout(() => {
-        btx.fillStyle = `hsl(${Math.random() * 360},100%,60%)`;
-        btx.beginPath();
-        btx.arc(
-          Math.random() * boom.width,
-          Math.random() * boom.height,
-          Math.random() * 10 + 5,
-          0,
-          Math.PI * 2
-        );
-        btx.fill();
-      }, i * 30);
+    const canvas = document.getElementById("boom");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+
+    for (let i = 0; i < 180; i++) {
+      particles.push({
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        r: Math.random() * 6 + 4,
+        dx: (Math.random() - 0.5) * 16,
+        dy: (Math.random() - 0.5) * 16,
+        life: 110
+      });
     }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        p.x += p.dx;
+        p.y += p.dy;
+        p.life--;
+
+        ctx.fillStyle = `rgba(255,47,110,${p.life / 110})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      if (particles.some(p => p.life > 0)) {
+        requestAnimationFrame(animate);
+      }
+    }
+
+    animate();
   }
 </script>
 
