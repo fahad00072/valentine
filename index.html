@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="cache-control" content="no-cache">
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Be My Valentine 💘</title>
+<title>Be My Valentine ❤️</title>
 
 <style>
   body {
@@ -15,7 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     overflow: hidden;
   }
 
@@ -64,12 +62,17 @@
     display: none;
   }
 
-  /* 🎬 BIG GIF */
   img {
-    width: 420px;
+    width: 450px;
     max-width: 95%;
     margin-top: 25px;
     border-radius: 24px;
+  }
+
+  #playBtn {
+    background: #ff2f6e;
+    color: white;
+    margin-top: 20px;
   }
 
   canvas {
@@ -83,13 +86,14 @@
 
 <body>
 
-<audio id="music" src="song.mp3" preload="auto"></audio>
+<!-- 🎵 SONG (must exist as song.mp3 in repo root) -->
+<audio id="music" src="song.mp3"></audio>
 
 <canvas id="boom"></canvas>
 
 <div class="box" id="question">
   <h1>Will you be my Valentine? 💖</h1>
-  <p>You can try saying no… but good luck 😏</p>
+  <p>You can try saying no 😏</p>
   <button id="yes">YES ❤️</button>
   <button id="no">NO 💔</button>
 </div>
@@ -98,60 +102,40 @@
   <h1>YAYYYYY!!! 🥰💘</h1>
   <p>You just made my Valentine’s Day ❤️</p>
 
-  <img 
-  src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExejJhMmd5bG9hMW1raHc0ZW82bmtpYXdqanFvOWQ2aXdqaDZibGlsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MOWPkhRAUbR7i/giphy.gif"
-  style="width:480px; max-width:95%; border-radius:24px;"
->
+  <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExejJhMmd5bG9hMW1raHc0ZW82bmtpYXdqanFvOWQ2aXdqaDZibGlsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MOWPkhRAUbR7i/giphy.gif">
 
+  <br>
+
+  <button id="playBtn" onclick="playMusic()">▶️ Play Song</button>
 </div>
 
 <script>
-  let audioUnlocked = false;
-
-document.body.addEventListener("touchstart", () => {
-  if (!audioUnlocked) {
-    const m = document.getElementById("music");
-    m.play().then(() => {
-      m.pause();
-      m.currentTime = 0;
-      audioUnlocked = true;
-    }).catch(() => {});
-  }
-}, { once: true });
-
   const no = document.getElementById("no");
   const yes = document.getElementById("yes");
   const question = document.getElementById("question");
   const yay = document.getElementById("yay");
-  const music = document.getElementById("music");
 
-  // 😈 NO button escape
   function moveNo() {
     no.style.left = Math.random() * (window.innerWidth - 140) + "px";
     no.style.top = Math.random() * (window.innerHeight - 70) + "px";
   }
+
   no.addEventListener("mouseover", moveNo);
   no.addEventListener("click", moveNo);
 
-  // ❤️ YES click
-  
-yes.addEventListener("click", () => {
-  question.style.display = "none";
-  yay.style.display = "block";
-
-  const m = document.getElementById("music");
-  m.currentTime = 0;
-  m.volume = 1;
-  m.play().catch(() => {
-    alert("Tap once on the screen, then press YES again ❤️");
+  yes.addEventListener("click", () => {
+    question.style.display = "none";
+    yay.style.display = "block";
+    explode();
   });
 
-  explode();
-});
+  function playMusic() {
+    const m = document.getElementById("music");
+    m.currentTime = 0;
+    m.volume = 1;
+    m.play();
+  }
 
-
-
-  // 💥 CENTER EXPLOSION
   function explode() {
     const canvas = document.getElementById("boom");
     const ctx = canvas.getContext("2d");
