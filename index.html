@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Be My Valentine?</title>
+<title>Be My Valentine ❤️</title>
 
 <style>
   body {
@@ -29,13 +29,11 @@
   h1 {
     color: #ff2f6e;
     font-size: 38px;
-    margin-bottom: 10px;
   }
 
   p {
     font-size: 22px;
     color: #444;
-    margin-bottom: 25px;
   }
 
   button {
@@ -70,7 +68,7 @@
   }
 
   #playBtn {
-    background: #ff2f6e;
+    background: #FF0000;
     color: white;
     margin-top: 20px;
   }
@@ -82,11 +80,8 @@
     pointer-events: none;
   }
 </style>
-
 </head>
 <body>
-
-<audio id="music" src="song.mp3"></audio>
 
 <canvas id="boom"></canvas>
 
@@ -105,7 +100,7 @@
 
   <br>
 
-  <button id="playBtn" onclick="playMusic()">▶️ Play Song</button>
+  <button id="playBtn" onclick="openMusic()">🎵 Play Our Song</button>
 </div>
 
 <script>
@@ -118,6 +113,7 @@
     no.style.left = Math.random() * (window.innerWidth - 140) + "px";
     no.style.top = Math.random() * (window.innerHeight - 70) + "px";
   }
+
   no.addEventListener("mouseover", moveNo);
   no.addEventListener("click", moveNo);
 
@@ -127,21 +123,22 @@
     explode();
   });
 
-  function playMusic() {
-    const m = document.getElementById("music");
-    m.currentTime = 0;
-    m.volume = 1;
-    m.play();
+  function openMusic() {
+    window.open(
+      "https://music.youtube.com/watch?v=cWIGUPQqnSk&si=UTqogdsoHbmhPhSi",
+      "_blank"
+    );
   }
 
   function explode() {
     const canvas = document.getElementById("boom");
     const ctx = canvas.getContext("2d");
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
 
     const particles = [];
+
     for (let i = 0; i < 180; i++) {
       particles.push({
         x: canvas.width/2,
@@ -162,13 +159,15 @@
         p.life--;
         ctx.fillStyle = `rgba(255,47,110,${p.life/110})`;
         ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.arc(p.x,p.r + p.y, p.r, 0, Math.PI*2);
         ctx.fill();
       });
+
       if (particles.some(p => p.life > 0)) {
         requestAnimationFrame(animate);
       }
     }
+
     animate();
   }
 </script>
