@@ -83,7 +83,7 @@
 
 <body>
 
-<audio id="music" src="for-a-reason.mp3"></audio>
+<audio id="music" src="song.mp3" preload="auto"></audio>
 
 <canvas id="boom"></canvas>
 
@@ -106,6 +106,19 @@
 </div>
 
 <script>
+  let audioUnlocked = false;
+
+document.body.addEventListener("touchstart", () => {
+  if (!audioUnlocked) {
+    const m = document.getElementById("music");
+    m.play().then(() => {
+      m.pause();
+      m.currentTime = 0;
+      audioUnlocked = true;
+    }).catch(() => {});
+  }
+}, { once: true });
+
   const no = document.getElementById("no");
   const yes = document.getElementById("yes");
   const question = document.getElementById("question");
@@ -126,14 +139,12 @@ yes.addEventListener("click", () => {
   question.style.display = "none";
   yay.style.display = "block";
 
-  // 🎵 FORCE AUDIO TO PLAY
-  music.pause();
-  music.currentTime = 0;
-  music.muted = false;
-  music.volume = 1;
-  music.play()
-    .then(() => console.log("Music playing"))
-    .catch(err => alert("Tap anywhere once, then click YES again"));
+  const m = document.getElementById("music");
+  m.currentTime = 0;
+  m.volume = 1;
+  m.play().catch(() => {
+    alert("Tap once on the screen, then press YES again ❤️");
+  });
 
   explode();
 });
