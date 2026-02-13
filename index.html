@@ -83,8 +83,7 @@
 
 <body>
 
-<audio id="music" src="for-a-reason.mp3" preload="auto"></audio>
-
+<audio id="music" src="for-a-reason.mp3"></audio>
 
 <canvas id="boom"></canvas>
 
@@ -122,16 +121,23 @@
   no.addEventListener("click", moveNo);
 
   // ❤️ YES click
-  yes.addEventListener("click", () => {
+  
+yes.addEventListener("click", () => {
   question.style.display = "none";
   yay.style.display = "block";
 
+  // 🎵 FORCE AUDIO TO PLAY
+  music.pause();
   music.currentTime = 0;
-  music.volume = 0.7;
-  music.play().catch(err => console.log("Audio blocked:", err));
+  music.muted = false;
+  music.volume = 1;
+  music.play()
+    .then(() => console.log("Music playing"))
+    .catch(err => alert("Tap anywhere once, then click YES again"));
 
   explode();
 });
+
 
 
   // 💥 CENTER EXPLOSION
