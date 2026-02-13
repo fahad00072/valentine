@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Be My Valentine ❤️</title>
+<title>Will You Be My Valentine?</title>
 
 <style>
   body {
@@ -82,11 +82,10 @@
     pointer-events: none;
   }
 </style>
-</head>
 
+</head>
 <body>
 
-<!-- 🎵 SONG (must exist as song.mp3 in repo root) -->
 <audio id="music" src="song.mp3"></audio>
 
 <canvas id="boom"></canvas>
@@ -99,8 +98,8 @@
 </div>
 
 <div class="box" id="yay">
-  <h1>YAYYYYY!!! 🥰💘</h1>
-  <p>You just made my Valentine’s Day ❤️</p>
+  <h1>YAY!!! 🥰💘</h1>
+  <p>You just made my Valentine’s Day! ❤️</p>
 
   <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExejJhMmd5bG9hMW1raHc0ZW82bmtpYXdqanFvOWQ2aXdqaDZibGlsaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MOWPkhRAUbR7i/giphy.gif">
 
@@ -119,7 +118,6 @@
     no.style.left = Math.random() * (window.innerWidth - 140) + "px";
     no.style.top = Math.random() * (window.innerHeight - 70) + "px";
   }
-
   no.addEventListener("mouseover", moveNo);
   no.addEventListener("click", moveNo);
 
@@ -144,37 +142,33 @@
     canvas.height = window.innerHeight;
 
     const particles = [];
-
     for (let i = 0; i < 180; i++) {
       particles.push({
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-        r: Math.random() * 6 + 4,
-        dx: (Math.random() - 0.5) * 16,
-        dy: (Math.random() - 0.5) * 16,
+        x: canvas.width/2,
+        y: canvas.height/2,
+        r: Math.random()*6 + 4,
+        dx: (Math.random() - 0.5)*16,
+        dy: (Math.random() - 0.5)*16,
         life: 110
       });
     }
 
     function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
 
       particles.forEach(p => {
         p.x += p.dx;
         p.y += p.dy;
         p.life--;
-
-        ctx.fillStyle = `rgba(255,47,110,${p.life / 110})`;
+        ctx.fillStyle = `rgba(255,47,110,${p.life/110})`;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
         ctx.fill();
       });
-
       if (particles.some(p => p.life > 0)) {
         requestAnimationFrame(animate);
       }
     }
-
     animate();
   }
 </script>
